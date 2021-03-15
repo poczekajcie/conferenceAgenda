@@ -1,5 +1,5 @@
 # Conference Agenda
-# Software Developer at Clincase - code challange
+# Software Developer at Clincase - code challenge
 
 Steps to run:
 1. clone project

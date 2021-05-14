@@ -37,7 +37,7 @@ public class FileContentPreparerTest {
     @Test
     public void shouldExtractTitles() {
         List<String> titles = fileContentPreparer.readFromLines(lines).stream().map(Conference::getTitle).collect(Collectors.toList());
-        assertThat(titles.containsAll(List.of("Title ", "Another title ", "Next one "))).isTrue();
+        assertThat(titles.containsAll(List.of("Title", "Another title", "Next one"))).isTrue();
     }
 
     @Test
@@ -52,5 +52,12 @@ public class FileContentPreparerTest {
 
         String expectedText = "Track 1:\n09:00 AM title 30min\n12:00 PM Lunch\n01:00 PM title 30min\nTrack 2:\n09:00 AM title 30min\n12:00 PM Lunch\n01:00 PM title 30min\n";
         assertThat(fileContentPreparer.parseConferencesToText(List.of(track1, track2))).isEqualTo(expectedText);
+    }
+
+    @Test
+    public void shouldIgnoreNumberInConferenceTitle() {
+        List<String> testLines = List.of("Title 15min", "Another 15 title lightning", "Next one 30min");
+        List<Conference> conferences = fileContentPreparer.readFromLines(testLines);
+        assertThat(conferences).contains(new Conference("Another 15 title", 5));
     }
 }

@@ -19,15 +19,18 @@ public class FileContentPreparer {
                 line = line.replace(LIGHTNING_NAME, "5min");
             }
             String numbers = getNumbers(line);
-            String[] lineParts = line.split(numbers);
-            String conferenceTitle = lineParts[0];
-            list.add(new Conference(conferenceTitle, Integer.parseInt(numbers)));
+            int timePositionInString = line.lastIndexOf(numbers);
+            list.add(new Conference(line.substring(0, timePositionInString).trim(), Integer.parseInt(numbers)));
         });
         return list;
     }
 
     private String getNumbers(String line) {
-        return line.replaceAll("\\D+","");
+        String result = line.replaceAll("\\D+","");
+        if (result.length() > 2) {
+            result =result.substring(2);
+        }
+        return result;
     }
 
     public String parseConferencesToText(List<Track> tracks) {
